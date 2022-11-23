@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+      
+      <h:head>
+      	<title>Accueil</title>
+      	<link rel="Stylesheet" href="../css/accueuil.css"/>
+      </h:head>
+      
+      <h:body style="background-color">
+      	<!-- Header -->
+      	<div class="header">
+      		<div class="ellipse1">
+      			<img src="../img/logo_site.png"  alt="DigiCab.png" />
+      		</div>
+      		<div class="spacer"></div>
+      		<div class="connect">
+      			<a href="#">Se connecter</a>
+      		</div>
+      	</div>
+      	
+      	
+      	<!-- Main -->
+      	<div class="main">
+      		<div class="intro">
+      			<p>Prenez rendez-vous avec votre médecin pour une consultation au cabinet qui vous convient </p>
+      		</div>
+      		<div class="research">
+      			<h:form >
+      				<div class="domaine">
+      					<h:selectOneMenu value="" label="Choisir un domaine">
+      					</h:selectOneMenu>
+      				</div>
+      				<div class="nom-medecin">
+      					<h:inputText value="" name="nomCabinet" label="Rechercher un Cabinet" />
+      				</div>
+      				<div class="nom-ville">
+      					<h:selectOneListbox value="" label="Choisir une ville">
+      					</h:selectOneListbox>
+      				</div>
+      				<div class="button-rechercher">
+      					<h:button> Rechercher</h:button>	
+      				</div>
+      				
+      			</h:form>
+      		</div>      		
+      	</div>
+      
+      	<!-- Footer -->
+      	<div class="footer">
+      		<div class="a-propos">
+      			<a href="#">A PROPOS DE DIGICAB</a>
+      		</div>
+      		<div class="nous-contacter">
+      			<a href="#">NOUS CONTACTER</a>
+      		</div>
+      		<div class="faq">
+      			<a href="#">QUESTIONS FREQUENTES</a>
+      		</div>
+      		<div class="recrutement">
+      			<a href="#">RECRUTEMENT</a>
+      		</div>
+      		<div class="img-bottom">
+      			<img src="../img/screen_bottom.png" />
+      		</div>
+      	</div>
+   
+      
+      </h:body>
+
+	
+</html>

@@ -2,16 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:o="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html">
 
+	<h:head>
+	<title>Facelet Title</title>
+	</h:head>
+	
 	<h:body>
 		<h:form>
-			<p:selectOneMenu  value="#{domaine.declaringClass}" >
-				<f:selectItems  value="#{data.domaines}" itemValue="#{domaine}" />
-			</p:selectOneMenu>
+			<p>Welcome #{assistant.email}</p>
+			<h:commandLink action="#{assistant.logout}" value="Logout"></h:commandLink>
 		</h:form>
 	</h:body>
-	
 </html>

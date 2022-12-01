@@ -1,2 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PROCESS model-entity="JSFProcess"/>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#admin-assistant.xhtml"
+  PATH="/admin-assistant.xhtml" SHAPE="272,209,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#admin-medecin.xhtml"
+  PATH="/admin-medecin.xhtml" SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#admin-patient.xhtml"
+  PATH="/admin-patient.xhtml" SHAPE="272,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#login-patient.xhtml"
+  PATH="/login-patient.xhtml" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#login-patient.xhtml:0" NAME="item"
+   PATH="/login-patient.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="admin-patient::#admin-patient.xhtml"
+    NAME="output" PATH="/admin-patient.xhtml"
+    TARGET="rules:#admin-patient.xhtml" TITLE="admin-patient" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#login-cabinet.xhtml"
+  PATH="/login-cabinet.xhtml" SHAPE="32,241,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#login-cabinet.xhtml:0" NAME="item"
+   PATH="/login-cabinet.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="admin-medecin::#admin-medecin.xhtml"
+    NAME="output" PATH="/admin-medecin.xhtml"
+    TARGET="rules:#admin-medecin.xhtml" TITLE="admin-medecin" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+  <PROCESS-ITEM ID="rules:#login-cabinet.xhtml:1" NAME="item1"
+   PATH="/login-cabinet.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="admin-assistant::#admin-assistant.xhtml"
+    NAME="output" PATH="/admin-assistant.xhtml"
+    TARGET="rules:#admin-assistant.xhtml" TITLE="admin-assistant" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>

@@ -1,10 +1,12 @@
 package com.listes;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 
 
 @ManagedBean
-public enum Domaine {
+public enum Domaine implements Serializable {
 	Chirurgie("Chirurgie"),
 	Pédiatrie("Pédiatrie"),
 	Dentaire("Dentaire"),
@@ -27,9 +29,15 @@ public enum Domaine {
 	}
 
 
-	private Domaine(String domaineName){
+	Domaine(String domaineName){
 		this.getDomaineName = domaineName;
 	}
+	
+	Domaine(){
+		this.getDomaineName = "";
+	}
+	
+	
 	
 	
 

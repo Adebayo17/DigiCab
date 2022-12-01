@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	
+	<head>
+    	<link href="../css/inscription-patient.css" rel="stylesheet"/>
+  	</head>
+	
+	
+	<h:body>
+		<div class="header">
+      		<img src="../img/logo_site.png" width="150px" />
+      		<div class="spacer"></div>
+      		<h:commandButton  action="login" value="Se connecter" class="connexion" />
+      	</div>
+	
+		<div class="main">
+		<span class="v46_195">Inscription du patient</span>
+		<div class="v46_157"></div>
+			<h:form>
+				<span class="v46_186">Informations du patient</span>
+				
+				<p:inputText id="nom" value="#{patient.nomPatient}" required="true" class="v46_167" type="text" placeholder="Nom du patient"  />
+				<h:message for="nom"></h:message>
+				
+      			<p:inputText id="prenom" value="#{patient.nomPatient}" required="true" class="v46_168" type="text" placeholder="Prénom du patient" />
+      			<h:message for="prenom"></h:message>
+				
+				<p:inputText id="cin" value="#{patient.carteIdentite}" required="true" class="v46_161" type="text" placeholder="CIN"  />
+				<h:message for="cin"></h:message>
+				
+				<p:datePicker id="datenaissance" class="v46_160" value="#{patient.dateNaissance}" type="date"  pattern="yyyy-MM-dd" onfocus="(this.type='date')"
+       								monthNavigator="true" yearNavigator="true" yearRange="1960:2022"  />
+       			<h:message for="datenaissance"></h:message>
+      			
+      			<p:inputText id="email" value="#{patient.email}" required="true" class="v46_166" type="email" placeholder="Adresse Email"  />
+      			<h:message for="email"></h:message>
+      			
+      			
+      			<p:inputText id="tel" value="#{patient.telephone}" required="true" class="v46_162" type="tel" placeholder="numéro de téléphone" pattern="[0-9]{10}"  />
+      			<h:message for="tel"></h:message>
+      			
+      			<p:password id="password" value="#{patient.password}" required="true" class="v46_164" toggleMask="true" redisplay="true" placeholder="Mot de passe"  />
+      			<h:message for="password"></h:message>
+      			<p:password value="#{patient.password2}" required="true" class="v46_159" toggleMask="true" redisplay="true" placeholder="Confirmation du mot de passe"  />
+      			
+   				<h:commandButton action="#{patient.addPatient()}" value="S'inscrire" styleClass="v46_193" />
+   				
+			</h:form>
+			
+		</div>
+		
+		<div class="footer">
+      		<!-- <div class="v73_106"></div>  class="v73_107" class="v73_108" class="v73_109" class="v73_110" class="v73_111" -->
+      		<a  href="google.com">A PROPOS DE DigiCAB</a>
+        	<a  href="google.com">NOUS CONTACTER </a>
+        	<a  href="google.com">QUESTIONS FREQUENTES</a>
+        	<a  href="google.com">RECRUTEMENT</a>
+        	<a  href="google.com">ACCEUIL</a>
+      	</div>
+      	
+	</h:body>
+
+</html>

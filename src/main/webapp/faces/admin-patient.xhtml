@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:head>
+	<title>Espace patient</title>
+	</h:head>
+	
+	<h:body>
+		<h:form>
+			<h:commandLink action="recherche" value="Accueil" />
+		</h:form>
+		
+		<div>
+			<span>Mon espace patient</span>
+		</div>
+		<br/>
+		<div>
+			<h:outputLabel value="Nom:		"/>
+			<h:outputText value="#{patient.nomPatient}" />
+			<br/>
+			
+			<h:outputLabel value="Prénom:		"/>
+			<h:outputText value="#{patient.prenomPatient}" />
+			<br/>
+			
+			<h:outputLabel value="CIN:		"/>
+			<h:outputText value="#{patient.carteIdentite}" />
+			<br/>
+			
+			<h:outputLabel value="E-mail:		"/>
+			<h:outputText value="#{patient.email}" />
+			<br/>
+			
+			<h:outputLabel value="Telephone:		"/>
+			<h:outputText value="#{patient.telephone}" />
+		</div>
+		
+		<h:form>
+			<h:commandButton action="#{patient.logout()}" value="" />
+		</h:form>
+		
+	</h:body>
+	
+	
+</html>

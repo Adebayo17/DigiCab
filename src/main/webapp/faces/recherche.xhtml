@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+		
+	<h:head>
+      	<title>Rechercher</title>
+      	<link rel="stylesheet" href="../css/style.css"/>
+    </h:head>
+      
+    <h:body>
+      	<div class="header">
+      		<img  src="../img/logo_site.png" width="150px" />
+      		<div class="spacer"></div>
+      		<h:outputText value="#{patient.nomPatient}" class="connexion" />
+      		  		
+      	</div>
+      	
+        <div class="main">
+        	
+        	<div class="card">
+    <h5>Default Filter</h5>
+    <h:form>
+        <p:dataTable var="cabinetMedical" value="#{dtFilte}" widgetVar="cabinetMedicalTable"
+            emptyMessage="Pas de cabinets trouvés"
+            filteredValue="#{data.cabmeds}" filterBy="#{dtFilterView.filterBy}">
+
+            <f:facet name="header">
+                <span>Listes des cabinets</span>
+            </f:facet>
+            
+            <p:column style="width:2rem">
+                <p:rowToggler/>
+            </p:column>
+
+            <p:column headerText="Nom du Cabinet" sortBy="#{cabinetMedical.nomCabinet}" filterBy="#{cabinetMedical.nomCabinet}">
+                <h:outputText value="#{cabinetMedical.nomCabinet}" />
+            </p:column>
+
+
+            <p:column field="ville" headerText="Ville" filterMatchMode="exact">
+                <f:facet name="filter">
+                    <p:selectOneMenu  styleClass="ui-custom-filter">
+                        <f:selectItem itemLabel="All" itemValue=""  noSelectionOption="true" />
+                        <f:selectItems value="#{data.villes}" />
+                    </p:selectOneMenu>
+                </f:facet>
+
+                <span class="customer-badge status-#{cabinetMedical.nomVille.name().toLowerCase()}">#{cabinetMedical.nomVille.toString()}</span>
+            </p:column>
+
+            <p:column field="domaine" headerText="Spécialité" filterMatchMode="exact">
+                <f:facet name="filter">
+                    <p:selectOneMenu  styleClass="ui-custom-filter">
+                        <f:selectItem itemLabel="All" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{data.domaines}" />
+                    </p:selectOneMenu>
+                </f:facet>
+
+                <span class="customer-badge status-#{cabinetMedical.domaine.name().toLowerCase()}">#{cabinetMedical.domaine.toString()}</span>
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+</div>
+        	
+        	
+        </div>
+        
+      	<div class="footer">
+      		<div class="v73_106"></div>
+      		<a class="v73_107" href="google.com">A PROPOS DE DigiCAB</a>
+        	<a class="v73_108" href="google.com">NOUS CONTACTER </a>
+        	<a class="v73_109" href="google.com">QUESTIONS FREQUENTES</a>
+        	<a class="v73_110" href="google.com">RECRUTEMENT</a>
+        	<a class="v73_111" href="google.com">ACCEUIL</a>
+      	</div>
+		
+	</h:body>
+	
+</html>
+
+
+
+<!-- 
+	<h:form>
+        <img class="no_results" src="../img/no_results.png" />
+        <h:outputText value="#{cabinetMedical.Result()}" />
+        <h:commandLink action="accueil" value="Revenir à la page d'accueil" />
+    </h:form>
+ -->

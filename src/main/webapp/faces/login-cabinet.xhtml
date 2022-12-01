@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://primefaces.org/ui">
+
+	<h:head>
+      	<title>Se connecter en tant que patient</title>
+      	<link rel="stylesheet" href="../css/login-cabinet.css"/>
+    </h:head>
+	
+	<h:body>
+		
+		<div class="header">
+      		<img src="../img/logo_site.png" width="150px" />
+      		<div class="spacer"></div>
+      		<h:form>
+      			<h:commandButton action="login-patient" value="Se connecter" class="connexion"/>
+      		</h:form>
+      	</div>
+      	
+      	<div class="main">
+      		<div class="log-medecin">
+				<span class="title-0">Espace médeciin</span>
+				<h:form>
+					<span class="text-0">Email</span>
+					<br/>
+					<h:inputText id="email" required="true" value="#{médecin.email}" />
+					<h:message for="email"></h:message>
+					<br></br>
+					<span class="text-0">Password</span>
+					<br/>
+					<h:inputSecret id="password" required="true" value="#{médecin.password}" />
+					<h:message for="password"></h:message>
+					<br></br>
+					<h:commandButton class="conn-0" action="#{médecin.validateMedecinPassword()}" value="Se connecter" />
+					<br/>
+					<a href="inscription-cabinet.xhtml">Inscrivez votre cabinet</a>
+				</h:form>
+				
+			</div>
+			
+			<div class="log-assistant">
+				<span class="title-1">Espace assistant</span>
+				<h:form>
+					<span class="text-1">Email</span>
+					<br/>
+					<h:inputText id="email" required="true" value="#{assistant.email}" />
+					<h:message for="email"></h:message>
+					<br></br>
+					<span class="text-1">Password</span>
+					<br/>
+					<h:inputSecret id="password" required="true" value="#{assistant.password}" />
+					<h:message for="password"></h:message>
+					<br></br>
+					<h:commandButton class="conn-1" action="#{assistant.validateAssistantPassword()}" value="Se connecter" />
+				</h:form>
+			</div>
+			
+      	</div>
+      	
+      	<div class="footer">
+      		<!-- <div class="v73_106"></div>  class="v73_107" class="v73_108" class="v73_109" class="v73_110" class="v73_111" -->
+      		<a  href="google.com">A PROPOS DE DigiCAB</a>
+        	<a  href="google.com">NOUS CONTACTER </a>
+        	<a  href="google.com">QUESTIONS FREQUENTES</a>
+        	<a  href="google.com">RECRUTEMENT</a>
+        	<a  href="google.com">ACCEUIL</a>
+      	</div>
+		
+	</h:body>
+	
+</html>

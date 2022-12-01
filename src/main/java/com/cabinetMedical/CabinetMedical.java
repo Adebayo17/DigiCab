@@ -1,6 +1,10 @@
 package com.cabinetMedical;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import com.assistant.Assistant;
@@ -9,6 +13,7 @@ import com.listes.Ville;
 import com.medecin.Médecin;
 
 @ManagedBean
+@ApplicationScoped
 public class CabinetMedical {
 	
 	private long codeSiren;
@@ -20,6 +25,25 @@ public class CabinetMedical {
 	private String telephone;
 	private Domaine domaine;
 	
+	
+	public CabinetMedical() {
+		super();
+	}
+	
+
+	public CabinetMedical(long codeSiren, String nomCabinet, Ville nomVille, String adresse, String telephone,
+			Domaine domaine) {
+		super();
+		this.codeSiren = codeSiren;
+		this.nomCabinet = nomCabinet;
+		this.nomVille = nomVille;
+		this.adresse = adresse;
+		this.telephone = telephone;
+		this.domaine = domaine;
+	}
+	
+	
+
 	public CabinetMedical(long codeSiren, String nomCabinet, Ville nomVille, String adresse, Médecin medecin,
 			Assistant assistant, String telephone, Domaine domaine) {
 		super();
@@ -104,9 +128,127 @@ public class CabinetMedical {
 	}
 	
 	
+	public List<CabinetMedical> getAll() {
+		List<CabinetMedical> list = new ArrayList<CabinetMedical>();
+		CabinetMedicalDaoImpl list_cab = new CabinetMedicalDaoImpl();
+		
+		
+		if((domaine == null  && nomVille == null)) {
+			list = list_cab.getAll();
+			
+		} else {
+			list = list_cab.getAll(nomCabinet, domaine, nomVille);
+				
+		}
+		
+		return list;
+	}
 	
+	public List<CabinetMedical> getAll2() {
+		List<CabinetMedical> list = new ArrayList<CabinetMedical>();
+		CabinetMedicalDaoImpl list_cab = new CabinetMedicalDaoImpl();
+		list = list_cab.getAll();
+		return list;
+	}
 
+	public String invalidPassword() {
+		if(medecin.invalidPassword() == null && assistant.invalidPassword() == null) {
+			return null;
+		}
+		else
+			return "Mot de passe incompatible";
+	}
 	
+	public String Result() {
+		if(getAll().isEmpty()) {
+			return "Aucun résultat ne correspond à votre recherche";
+		} else {
+			return "Nous avons trouvé " + getAll().size() + " résultats à votre recherche";
+		}
+	}
+	
+	public String addCabinet() {
+		CabinetMedicalDaoImpl inscription = new CabinetMedicalDaoImpl();
+		if(invalidPassword() == null) {
+			inscription.add(new CabinetMedical(codeSiren, nomCabinet, nomVille,adresse, 
+                		new Médecin(medecin.getCarteIdentite(), medecin.getEmail(), medecin.getPassword(), medecin.getNomMedecin(), medecin.getPrenomMedecin(), medecin.getSpecialite(), medecin.getDateNaissance(), medecin.getTelephone()),
+            			new Assistant(assistant.getCarteIdentite(), assistant.getEmail(), assistant.getPassword(), assistant.getNomAssistant(), assistant.getPrenomAssistant(), assistant.getDateNaissance(), assistant.getTelephone()), 
+            			telephone, domaine));
+			
+			return "login-cabinet";
+		} else {
+			return "inscription-cabinet";
+		}
+	}
+	
+	
+	/*
+	public long getCodeSirenMed() {
+		codeSiren = medecin.setCabMed().getCodeSiren();
+		return codeSiren;
+	}
+	
+	
+	public String getNomCabinetMed() {
+		nomCabinet = medecin.setCabMed().getNomCabinet();
+		return nomCabinet;
+	}
+	
+	
+	public Ville getNomVilleMed() {
+		nomVille = medecin.setCabMed().getNomVille();
+		return nomVille;
+	}
+	
+	
+	public String getAdresseMed() {
+		adresse = medecin.setCabMed().getAdresse();
+		return adresse;
+	}
+	
+	public String getTelephoneMed() {
+		telephone = medecin.setCabMed().getTelephone();
+		return telephone;
+	}
+	
+	public Domaine getDomaineMed() {
+		domaine = medecin.setCabMed().getDomaine();
+		return domaine;
+	}
+	
+	public long getCodeSirenAss() {
+		codeSiren = assistant.setCabAss().getCodeSiren();
+		return codeSiren;
+	}
+	
+	
+	public String getNomCabinetAss() {
+		nomCabinet = assistant.setCabAss().getNomCabinet();
+		return nomCabinet;
+	}
+	
+	
+	public Ville getNomVilleAss() {
+		nomVille = assistant.setCabAss().getNomVille();
+		return nomVille;
+	}
+	
+	
+	public String getAdresseAss() {
+		adresse = assistant.setCabAss().getAdresse();
+		return adresse;
+	}
+	
+	public String getTelephoneAss() {
+		telephone = assistant.setCabAss().getTelephone();
+		return telephone;
+	}
+	
+	public Domaine getDomaineAss() {
+		domaine = assistant.setCabAss().getDomaine();
+		return domaine;
+	}
+	*/
 
 
 }

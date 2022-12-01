@@ -1,8 +1,8 @@
 package com.listes;
 
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
 
-@Named
+@ManagedBean
 public enum Ville {
 	Agadir("Agadir"),
     Ait_melloul("Ait melloul"),
@@ -69,6 +69,10 @@ public enum Ville {
 
 	Ville(String villeName){
 		getVilleName = villeName;
+	}
+	
+	Ville(){
+		getVilleName = "";
 	}
 
 	

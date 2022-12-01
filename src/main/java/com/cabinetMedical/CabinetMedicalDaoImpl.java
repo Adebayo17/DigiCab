@@ -20,20 +20,17 @@ public class CabinetMedicalDaoImpl extends AbstractDAOA implements cabinetMedica
     @Override
     public void add(CabinetMedical obj) {
         PreparedStatement pst = null;
-        String sql = "insert into CabinetMedical (codeSiren, nomCabinet, nomVille, adresse, carteIdentiteMedecin, carteIdentiteAssistant, telephone) values (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into CabinetMedical (codeSiren, nomCabinet, nomVille, adresse, carteIdentiteMedecin, carteIdentiteAssistant, telephone, domaine) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             pst = connection.prepareStatement(sql);
             pst.setLong(1, obj.getCodeSiren());
             pst.setString(2, obj.getNomCabinet());
             pst.setString(3, obj.getNomVille().name());
-            pst.setString(4, obj.getAdresse());
-            
-            //Médecin med = new Médecin(obj.getMedecin().getCarteIdentite());
-            pst.setString(5, obj.getMedecin().getCarteIdentite());
-            
-            //Assistant assis = new Assistant();
+            pst.setString(4, obj.getAdresse());                        
+            pst.setString(5, obj.getMedecin().getCarteIdentite());                     
             pst.setString(6, obj.getAssistant().getCarteIdentite());
             pst.setString(7, obj.getTelephone());
+            pst.setString(8, obj.getDomaine().name());
             
             pst.executeUpdate();
         } catch (SQLException exp) {
@@ -77,9 +74,65 @@ public class CabinetMedicalDaoImpl extends AbstractDAOA implements cabinetMedica
                 Domaine domaine = Domaine.valueOf(rs.getString("cm1.domaine"));
                 Ville ville = Ville.valueOf(rs.getString("cm1.nomVille"));
                 return new CabinetMedical(rs.getLong("cm1.codeSiren"), rs.getString("cm1.nomCabinet"), ville, rs.getString("cm1.adresse"), 
-                		new Médecin(rs.getString("m1.carteIdentite"), rs.getString("m1.email"), rs.getString("m1.password"), rs.getString("m1.nomMedecin"), rs.getString("m1.prenomMedecin"), rs.getString("m1.specialite"), rs.getDate("m1.dateNaissance"), rs.getString("m1.telephone")),
-            			new Assistant(rs.getString("a1.carteIdentite"), rs.getString("a1.email"), rs.getString("a1.password"), rs.getString("a1.nomAssistant"), rs.getString("a1.prenomAssistant"), rs.getDate("a1.dateNaissance"), rs.getString("a1.telephone")), 
+                		new Médecin(rs.getString("m1.carteIdentite"), rs.getString("m1.email"), rs.getString("m1.password"), rs.getString("m1.nomMedecin"), rs.getString("m1.prenomMedecin"), rs.getString("m1.specialite"), rs.getDate("m1.dateNaissance").toLocalDate(), rs.getString("m1.telephone")),
+            			new Assistant(rs.getString("a1.carteIdentite"), rs.getString("a1.email"), rs.getString("a1.password"), rs.getString("a1.nomAssistant"), rs.getString("a1.prenomAssistant"), rs.getDate("a1.dateNaissance").toLocalDate(), rs.getString("a1.telephone")), 
             			rs.getString("cm1.telephone"), domaine);
+            }
+        } catch (SQLException exp) {
+            System.out.println(exp.getMessage());
+        }
+        return null;
+    }
+    
+    public CabinetMedical getMedlogged(String medCarteIdentite) {
+    	
+    	Médecin med = new Médecin();
+    	medCarteIdentite = med.getCarteIdentite();
+    	
+        PreparedStatement pst = null;
+        ResultSet rs;
+        String sql = "SELECT *\r\n"
+        		+ "FROM CabinetMedical as cm1\r\n"
+        		+ "WHERE cm1.CarteIdentiteMedecin = ? ";
+        
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setString(1, medCarteIdentite);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                System.out.println(rs.getLong("codeSiren") + "" + rs.getString("nomCabinet"));
+                Domaine domaine = Domaine.valueOf(rs.getString("cm1.domaine"));
+                Ville ville = Ville.valueOf(rs.getString("cm1.nomVille"));
+                return new CabinetMedical(rs.getLong("cm1.codeSiren"), rs.getString("cm1.nomCabinet"), ville, rs.getString("cm1.adresse"), 
+                							rs.getString("cm1.telephone"), domaine);
+            }
+        } catch (SQLException exp) {
+            System.out.println(exp.getMessage());
+        }
+        return null;
+    }
+    
+    public CabinetMedical getAsslogged(String assCarteIdentite) {
+    	
+    	Assistant assis = new Assistant();
+    	assCarteIdentite = assis.getCarteIdentite();
+    	
+        PreparedStatement pst = null;
+        ResultSet rs;
+        String sql = "SELECT *\r\n"
+        		+ "FROM CabinetMedical as cm1\r\n"
+        		+ "WHERE cm1.CarteIdentiteAssistant = ? ";
+        
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setString(1, assCarteIdentite);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                System.out.println(rs.getLong("codeSiren") + "" + rs.getString("nomCabinet"));
+                Domaine domaine = Domaine.valueOf(rs.getString("cm1.domaine"));
+                Ville ville = Ville.valueOf(rs.getString("cm1.nomVille"));
+                return new CabinetMedical(rs.getLong("cm1.codeSiren"), rs.getString("cm1.nomCabinet"), ville, rs.getString("cm1.adresse"), 
+                							rs.getString("cm1.telephone"), domaine);
             }
         } catch (SQLException exp) {
             System.out.println(exp.getMessage());
@@ -100,13 +153,13 @@ public class CabinetMedicalDaoImpl extends AbstractDAOA implements cabinetMedica
             pst = connection.prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getLong("id") + "" + rs.getString("designation"));
+                System.out.println(rs.getLong("codeSiren") + "" + rs.getString("nomCabinet"));
                 //Date date = rs.getDate("date");
                 Domaine domaine = Domaine.valueOf(rs.getString("cm1.domaine"));
                 Ville ville = Ville.valueOf(rs.getString("cm1.nomVille"));
                 list.add(new CabinetMedical(rs.getLong("cm1.codeSiren"), rs.getString("cm1.nomCabinet"), ville, rs.getString("cm1.adresse"), 
-                		new Médecin(rs.getString("m1.carteIdentite"), rs.getString("m1.email"), rs.getString("m1.password"), rs.getString("m1.nomMedecin"), rs.getString("m1.prenomMedecin"), rs.getString("m1.specialite"), rs.getDate("m1.dateNaissance"), rs.getString("m1.telephone")),
-            			new Assistant(rs.getString("a1.carteIdentite"), rs.getString("a1.email"), rs.getString("a1.password"), rs.getString("a1.nomAssistant"), rs.getString("a1.prenomAssistant"), rs.getDate("a1.dateNaissance"), rs.getString("a1.telephone")), 
+                		new Médecin(rs.getString("m1.carteIdentite"), rs.getString("m1.email"), rs.getString("m1.password"), rs.getString("m1.nomMedecin"), rs.getString("m1.prenomMedecin"), rs.getString("m1.specialite"), rs.getDate("m1.dateNaissance").toLocalDate(), rs.getString("m1.telephone")),
+            			new Assistant(rs.getString("a1.carteIdentite"), rs.getString("a1.email"), rs.getString("a1.password"), rs.getString("a1.nomAssistant"), rs.getString("a1.prenomAssistant"), rs.getDate("a1.dateNaissance").toLocalDate(), rs.getString("a1.telephone")), 
             			rs.getString("cm1.telephone"), domaine));
             }
         } catch (SQLException exp) {
@@ -120,19 +173,19 @@ public class CabinetMedicalDaoImpl extends AbstractDAOA implements cabinetMedica
         List<CabinetMedical> list = new ArrayList<CabinetMedical>();
         PreparedStatement pst = null;
         ResultSet rs;
-        String sql = "select *from CabinetMedical where nomCabinet like ? ";
+        String sql = "select *from CabinetMedical where nomCabinet like ?";
         try {
             pst = connection.prepareStatement(sql);
             pst.setString(1, nomCabinet + "%");
             rs = pst.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getLong("id") + "" + rs.getString("nomCabinet"));
+                System.out.println(rs.getLong("codeSiren") + "" + rs.getString("nomCabinet"));
                 //Date date = rs.getDate("date");
                 Domaine domaine = Domaine.valueOf(rs.getString("cm1.domaine"));
                 Ville ville = Ville.valueOf(rs.getString("cm1.nomVille"));
                 list.add(new CabinetMedical(rs.getLong("cm1.codeSiren"), rs.getString("cm1.nomCabinet"), ville, rs.getString("cm1.adresse"), 
-                		new Médecin(rs.getString("m1.carteIdentite"), rs.getString("m1.email"), rs.getString("m1.password"), rs.getString("m1.nomMedecin"), rs.getString("m1.prenomMedecin"), rs.getString("m1.specialite"), rs.getDate("m1.dateNaissance"), rs.getString("m1.telephone")),
-            			new Assistant(rs.getString("a1.carteIdentite"), rs.getString("a1.email"), rs.getString("a1.password"), rs.getString("a1.nomAssistant"), rs.getString("a1.prenomAssistant"), rs.getDate("a1.dateNaissance"), rs.getString("a1.telephone")), 
+                		new Médecin(rs.getString("m1.carteIdentite"), rs.getString("m1.email"), rs.getString("m1.password"), rs.getString("m1.nomMedecin"), rs.getString("m1.prenomMedecin"), rs.getString("m1.specialite"), rs.getDate("m1.dateNaissance").toLocalDate(), rs.getString("m1.telephone")),
+            			new Assistant(rs.getString("a1.carteIdentite"), rs.getString("a1.email"), rs.getString("a1.password"), rs.getString("a1.nomAssistant"), rs.getString("a1.prenomAssistant"), rs.getDate("a1.dateNaissance").toLocalDate(), rs.getString("a1.telephone")), 
             			rs.getString("cm1.telephone"), domaine));
             }
         } catch (SQLException exp) {
@@ -140,4 +193,34 @@ public class CabinetMedicalDaoImpl extends AbstractDAOA implements cabinetMedica
         }
         return list;
     }
+    
+    
+    public List<CabinetMedical> getAll(String nomCabinet, Domaine domaine, Ville ville) {
+        List<CabinetMedical> list = new ArrayList<CabinetMedical>();
+        PreparedStatement pst = null;
+        ResultSet rs;
+        String sql = "select *from CabinetMedical where nomCabinet like ? and domaine = ? and nomVille = ?";
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setString(1, nomCabinet + "%");
+            pst.setString(2, domaine.toString());
+            pst.setString(3, ville.toString());
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getLong("codeSiren") + "" + rs.getString("nomCabinet"));
+                //Date date = rs.getDate("date");
+                list.add(new CabinetMedical(rs.getLong("cm1.codeSiren"), rs.getString("cm1.nomCabinet"), ville, rs.getString("cm1.adresse"), 
+                		new Médecin(rs.getString("m1.carteIdentite"), rs.getString("m1.email"), rs.getString("m1.password"), rs.getString("m1.nomMedecin"), rs.getString("m1.prenomMedecin"), rs.getString("m1.specialite"), rs.getDate("m1.dateNaissance").toLocalDate(), rs.getString("m1.telephone")),
+            			new Assistant(rs.getString("a1.carteIdentite"), rs.getString("a1.email"), rs.getString("a1.password"), rs.getString("a1.nomAssistant"), rs.getString("a1.prenomAssistant"), rs.getDate("a1.dateNaissance").toLocalDate(), rs.getString("a1.telephone")), 
+            			rs.getString("cm1.telephone"), domaine));
+            }
+        } catch (SQLException exp) {
+            System.out.println(exp.getMessage());
+        }
+        return list;
+    }
+    
+    
+    
+    
 }

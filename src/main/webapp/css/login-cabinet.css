@@ -1,0 +1,194 @@
+@charset "UTF-8";
+
+body{
+    font-size: 14px;
+  	background-image : url("../img/IMG_0022-1024x576.jpg") ;
+   	background-size : 100% ;
+   	width: 100%;
+   	height: 100%;
+        
+}
+
+body .header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	overflow: hidden;
+	width: 100%;
+	height: 100px;
+	line-height: 100px;
+	
+}
+
+.header .spacer {
+	flex: 1;
+}
+
+.connexion {
+	width: 200px;
+	height: 60px;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 150%;
+	line-height: 15px;
+	color: #000000;
+	cursor: pointer;
+	background-color: #FFD058;
+	border-radius: 46px;
+	text-align: center;
+	vertical-align: middle;
+	margin-top: 20px;
+	margin-right: 20px;
+
+}
+
+body .main {
+	position: absolute;
+	top: 101px;	
+	left: 0;
+	right: 0;
+	height: calc(100% - 201px);
+	text-align: center;
+	display: flex;
+}
+
+body .main .log-medecin {
+	margin-top: 20px;
+	height: 80%;
+	width: 40%;
+	margin-left: 5%;
+	margin-right: 5%;
+	background-color: aqua;
+	border-radius: 36px;
+	text-align: center;
+}
+
+body .main .log-medecin .title-0 {
+	width: 50%;
+	height: 20%;
+	margin-left: 25%;
+	margin-right: 25%;
+	text-align: center;
+	font-family: 'roboto';
+	font-style: bold;
+	font-weight: 400;
+	font-size: 28px;
+}
+
+body .main .log-medecin a {
+	text-align: center;
+	font-family: 'roboto';
+	font-style: italic;
+	font-weight: 300;
+	font-size: 28px;
+}
+
+body .main .log-medecin form {
+	margin-top: 20px;
+}
+
+body .main .log-medecin form .text-0 {
+	text-align: left;
+	margin-bottom: 20px;
+	width: 100%;
+	height: 20px;
+}
+
+body .main .log-medecin form input {
+	width: 80%;
+	height: 50px;
+	border-radius: 36px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+body .main .log-medecin form .conn-0 {
+	background-color: #0000ff;
+	margin-top: 50px;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 150%;
+}
+
+
+body .main .log-assistant {
+	margin-top: 20px;
+	height: 80%;
+	width: 40%;
+	margin-left: 5%;
+	margin-right: 5%;
+	background-color: aqua;
+	border-radius: 36px;
+	text-align: center;
+}
+
+body .main .log-assistant .title-1 {
+	width: 50%;
+	height: 20%;
+	margin-left: 25%;
+	margin-right: 25%;
+	text-align: center;
+	font-family: 'roboto';
+	font-style: bold;
+	font-weight: 400;
+	font-size: 28px;
+}
+
+body .main .log-assistant form {
+	margin-top: 20px;
+}
+
+body .main .log-assistant form .text-1 {
+	text-align: left;
+	margin-bottom: 20px;
+	width: 100%;
+	height: 20px;
+}
+
+body .main .log-assistant form input {
+	width: 80%;
+	height: 50px;
+	border-radius: 36px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+body .main .log-assistant form .conn-1 {
+	background-color: #0000ff;
+	margin-top: 50px;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 150%;
+}
+
+
+body .footer {
+	position: absolute;
+	display: flex;
+	width: 100%;
+	height: auto;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 90%;
+	text-align: center;
+	background-color: #0080c0;
+	padding-bottom: 20px;
+	padding-top: 25px;
+	
+}
+
+body .footer a {
+	width: 20%;
+	color: white;
+	
+}

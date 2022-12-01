@@ -1,18 +1,17 @@
 package com.patient;
 
 import java.io.Serializable;
-import java.util.Date;
-
+import java.time.LocalDate;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
-import com.dao.SessionUtils;
-
 @ManagedBean
 @SessionScoped
+@RequestScoped
 public class Patient implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -22,12 +21,28 @@ public class Patient implements Serializable {
 	private String password;
 	private String nomPatient;
 	private String prenomPatient;
-	private Date dateNaissance;
+	private LocalDate dateNaissance;
 	private String telephone;
+	private String password2;
 	
 	
+	public String getPassword2() {
+		return password2;
+	}
+
+
+	public void setPassword2(String password2) {
+		this.password2 = password2;
+	}
+
+
+	public Patient() {
+		super();
+	}
+
+
 	public Patient(String carteIdentite, String email, String password, String nomPatient, String prenomPatient,
-			Date dateNaissance, String telephone) {
+			LocalDate dateNaissance, String telephone) {
 		super();
 		this.carteIdentite = carteIdentite;
 		this.email = email;
@@ -87,22 +102,30 @@ public class Patient implements Serializable {
 	}
 	
 	
-	public Date getDateNaissance() {
+	public LocalDate getDateNaissance() {
 		return dateNaissance;
 	}
-	public void setDateNaissance(Date dateNaissance) {
+	public void setDateNaissance(LocalDate dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
 	
 	//validate login
 	public String validatePatientPassword() {
-		
 		boolean valid = PatientDaoImpl.validate(email, password);
 		
 		if (valid) {
 			HttpSession session = SessionUtils.getSession();
 			session.setAttribute("email", email);
-			return "admin";
+			PatientDaoImpl patlog = new PatientDaoImpl();
+			Patient pat = new Patient();
+			pat = patlog.getPatientLogged(email);
+			carteIdentite = pat.getCarteIdentite();
+			nomPatient = pat.getNomPatient();
+			prenomPatient = pat.getPrenomPatient();
+			telephone = pat.getTelephone();
+			dateNaissance = pat.getDateNaissance();
+			
+			return "admin-patient";
 		} 
 		else {
 			FacesContext.getCurrentInstance().addMessage(
@@ -110,7 +133,7 @@ public class Patient implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_WARN,
 							"Incorrect email and Passowrd",
 							"Please enter correct email and Password"));
-			return "login";
+			return "login-patient";
 		}
 	}
 
@@ -118,7 +141,35 @@ public class Patient implements Serializable {
 	public String logout() {
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
-		return "login";
+		return "login-patient";
+	}
+	
+	public String invalidPassword() {
+		if(password.equals(password2)) {
+			return null;
+		}
+		else
+			return "Mot de passe incompatible";
+	}
+	
+	public String addPatient() {
+		PatientDaoImpl inscription = new PatientDaoImpl();
+		if(invalidPassword() == null) {
+			HttpSession session = SessionUtils.getSession();
+			session.setAttribute("email", email);
+			inscription.add(new Patient(carteIdentite, email, password, nomPatient, prenomPatient,
+					dateNaissance, telephone));
+			return "login-patient";
+		}
+		else {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Mot de passe incompatible",
+							"Confirmer le mot de passe"));
+			return "inscription-patient";
+		}
+		
 	}
 
 }

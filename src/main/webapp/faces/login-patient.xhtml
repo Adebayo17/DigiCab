@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:head>
+      	<title>Se connecter en tant que patient</title>
+      	<link rel="stylesheet" href="../css/login-patient.css"/>
+    </h:head>
+	
+	<h:body>
+		<div class="header">
+      		<img src="../img/logo_site.png" width="150px" />
+      		<div class="spacer"></div>
+      		<h:form>
+      			<h:commandButton action="login-patient" value="Se connecter" class="connexion"/>
+      		</h:form>
+      	</div>
+      	
+		<div class="main">
+			<div class="log">
+				<span class="title">Espace patient</span>
+				<h:form>
+					<span class="text">Email</span>
+					<br/>
+					<h:inputText id="email" required="true" value="#{patient.email}" />
+					<h:message for="email"></h:message>
+					<br></br>
+					<span class="text">Password</span>
+					<br/>
+					<h:inputSecret id="password" required="true" value="#{patient.password}" />
+					<h:message for="password"></h:message>
+					<br></br>
+					<h:commandButton class="conn" action="#{patient.validatePatientPassword()}" value="Se connecter" />
+				</h:form>
+				<a href="inscription-patient.xhtml">Inscrivez-vous</a>
+				
+			</div>
+		</div>
+		
+			
+		<div class="footer">
+      		<a class="v73_107" href="google.com">A PROPOS DE DigiCAB</a>
+        	<a class="v73_108" href="google.com">NOUS CONTACTER </a>
+        	<a class="v73_109" href="google.com">QUESTIONS FREQUENTES</a>
+        	<a class="v73_110" href="google.com">RECRUTEMENT</a>
+        	<a class="v73_111" href="google.com">ACCEUIL</a>
+      	</div>
+	</h:body>
+	
+	
+</html>
+

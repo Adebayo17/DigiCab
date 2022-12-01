@@ -2,6 +2,7 @@ package com.patient;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +12,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 import com.dao.AbstractDAOA;
-import com.dao.SingleConnexion;
 
 @ManagedBean
 public class PatientDaoImpl extends AbstractDAOA implements patientIdao {
@@ -28,7 +28,9 @@ public class PatientDaoImpl extends AbstractDAOA implements patientIdao {
             pst.setString(3, obj.getPassword());
             pst.setString(4, obj.getNomPatient());
             pst.setString(5, obj.getPrenomPatient());
-		    pst.setDate(6, (Date) obj.getDateNaissance());
+            Date date = Date.valueOf(obj.getDateNaissance());
+            pst.setDate(6, date);
+		    //pst.setDate(6, (Date) obj.getDateNaissance());
 		    pst.setString(7, obj.getTelephone());
  
             pst.executeUpdate();
@@ -62,7 +64,26 @@ public class PatientDaoImpl extends AbstractDAOA implements patientIdao {
             if (rs.next()) {
                 System.out.println(rs.getString("carteIdentite") + "" + rs.getString("email"));
                 Date dateNaissance = rs.getDate("dateNaissance");
-                return new Patient(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomPatient"), rs.getString("prenomPatient"), dateNaissance,  rs.getString("telephone"));
+                return new Patient(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomPatient"), rs.getString("prenomPatient"), dateNaissance.toLocalDate(),  rs.getString("telephone"));
+            }
+        } catch (SQLException exp) {
+            System.out.println(exp.getMessage());
+        }
+        return null;
+    }
+    
+    public Patient getPatientLogged(String email) {
+        PreparedStatement pst = null;
+        ResultSet rs;
+        String sql = "select *from Patient where email= ?";
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setString(1, email);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                System.out.println(rs.getString("carteIdentite") + "" + rs.getString("email"));
+                Date dateNaissance = rs.getDate("dateNaissance");
+                return new Patient(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomPatient"), rs.getString("prenomPatient"), dateNaissance.toLocalDate(),  rs.getString("telephone"));
             }
         } catch (SQLException exp) {
             System.out.println(exp.getMessage());
@@ -82,7 +103,7 @@ public class PatientDaoImpl extends AbstractDAOA implements patientIdao {
             while (rs.next()) {
                  System.out.println(rs.getString("carteIdentite") + "" + rs.getString("email"));
                 Date dateNaissance = rs.getDate("dateNaissance");
-                list.add(new Patient(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomPatient"), rs.getString("prenomPatient"), dateNaissance,  rs.getString("telephone")));
+                list.add(new Patient(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomPatient"), rs.getString("prenomPatient"), dateNaissance.toLocalDate(),  rs.getString("telephone")));
 
             }
         } catch (SQLException exp) {
@@ -104,7 +125,7 @@ public class PatientDaoImpl extends AbstractDAOA implements patientIdao {
             while (rs.next()) {
                 System.out.println(rs.getString("carteIdentite") + "" + rs.getString("email"));
                 Date dateNaissance = rs.getDate("dateNaissance");
-                list.add(new Patient(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomPatient"), rs.getString("prenomPatient"), dateNaissance,  rs.getString("telephone")));
+                list.add(new Patient(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomPatient"), rs.getString("prenomPatient"), dateNaissance.toLocalDate(),  rs.getString("telephone")));
             }
         } catch (SQLException exp) {
             System.out.println(exp.getMessage());
@@ -125,27 +146,44 @@ public class PatientDaoImpl extends AbstractDAOA implements patientIdao {
 	}
 	
 	public static boolean validate(String email, String password) {
-		Connection con = SingleConnexion.getConnection();
 		PreparedStatement pst = null;
 		String sql = "Select email, password from Patient where email = ? and password = ?";
-
+		
 		try {
-			pst = con.prepareStatement(sql);
-			pst.setString(1, email);
-			pst.setString(2, password);
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String url = "jdbc:mysql://localhost/digicab";
+			String user = "root";
+			String pwd = "root";
+			Connection con = DriverManager.getConnection(url, user, pwd);
+			
+			try {
+				pst = con.prepareStatement(sql);
+				pst.setString(1, email);
+				pst.setString(2, password);
 
-			ResultSet rs = pst.executeQuery();
+				ResultSet rs = pst.executeQuery();
 
-			if (rs.next()) {
-				//result found, means valid inputs
-				return true;
+				if (rs.next()) {
+					//result found, means valid inputs
+					return true;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			} finally {
+				con.close();
 			}
-		} catch (Exception e) {
+			
+			return false;
+			
+			
+		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			SingleConnexion.close(con);
 		}
+
+		
 		
 		return false;
 	}

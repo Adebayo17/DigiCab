@@ -1,4 +1,4 @@
-package com.dao;
+package com.medecin;
 
 import java.io.IOException;
 
@@ -13,10 +13,8 @@ import javax.servlet.http.HttpSession;
 
 public class AuthorizationFilter implements Filter {
 	
-	public AuthorizationFilter() {
-		
-		
-	}
+	public AuthorizationFilter() {}
+	
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -29,13 +27,13 @@ public class AuthorizationFilter implements Filter {
 			HttpSession ses = reqt.getSession(false);
 
 			String reqURI = reqt.getRequestURI();
-			if (reqURI.indexOf("/login.xhtml") >= 0
+			if (reqURI.indexOf("/login-cabinet.xhtml") >= 0
 					|| (ses != null && ses.getAttribute("email") != null)
 					|| reqURI.indexOf("/public/") >= 0
 					|| reqURI.contains("javax.faces.resource"))
 				chain.doFilter(request, response);
 			else
-				resp.sendRedirect(reqt.getContextPath() + "/xhtml/login.xhtml");
+				resp.sendRedirect(reqt.getContextPath() + "/faces/login-cabinet.xhtml");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

@@ -1,20 +1,25 @@
 package com.assistant;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+
 import com.dao.AbstractDAOA;
 
+@ManagedBean
 public class AssistantDaoImpl extends AbstractDAOA implements assistantIdao {
 
     @Override
     public void add(Assistant obj) {
         PreparedStatement pst = null;
-        String sql = "insert into Assistant (carteIdentite, email, password, nomAssistant, prenomAssistant, dateNaissance, telephone) values (?,?,?,?,?,?,?);";
+        String sql = "insert into Assistant (carteIdentite, email, password, nomAssistant, prenomAssistant, dateNaissance, telephone) values (?,?,?,?,?,?,?)";
         try {
             pst = connection.prepareStatement(sql);
             pst.setString(1, obj.getCarteIdentite());
@@ -22,7 +27,8 @@ public class AssistantDaoImpl extends AbstractDAOA implements assistantIdao {
             pst.setString(3, obj.getPassword());
             pst.setString(4, obj.getNomAssistant());
             pst.setString(5, obj.getPrenomAssistant());
-		    pst.setDate(6, (Date) obj.getDateNaissance());
+            Date date = Date.valueOf(obj.getDateNaissance());
+            pst.setDate(6, date);
 		    pst.setString(7, obj.getTelephone());
  
             pst.executeUpdate();
@@ -34,7 +40,7 @@ public class AssistantDaoImpl extends AbstractDAOA implements assistantIdao {
     
     public void delete(String carteIdentite) {
         PreparedStatement pst = null;
-        String sql = "delete *from Assistant where carteIdentite= ? ;";
+        String sql = "delete *from Assistant where carteIdentite= ?";
         try {
             pst = connection.prepareStatement(sql);
             pst.setString(1, carteIdentite);
@@ -48,7 +54,7 @@ public class AssistantDaoImpl extends AbstractDAOA implements assistantIdao {
     public Assistant getOne(String carteIdentite) {
         PreparedStatement pst = null;
         ResultSet rs;
-        String sql = "select *from Assistant where carteIdentite= ? ;";
+        String sql = "select *from Assistant where carteIdentite= ?";
         try {
             pst = connection.prepareStatement(sql);
             pst.setString(1, carteIdentite);
@@ -56,7 +62,26 @@ public class AssistantDaoImpl extends AbstractDAOA implements assistantIdao {
             if (rs.next()) {
                 System.out.println(rs.getString("carteIdentite") + "" + rs.getString("email"));
                 Date dateNaissance = rs.getDate("dateNaissance");
-                return new Assistant(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomAssistant"), rs.getString("prenomAssistant"), dateNaissance,  rs.getString("telephone"));
+                return new Assistant(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomAssistant"), rs.getString("prenomAssistant"), dateNaissance.toLocalDate(),  rs.getString("telephone"));
+            }
+        } catch (SQLException exp) {
+            System.out.println(exp.getMessage());
+        }
+        return null;
+    }
+    
+    public Assistant getAssistantlogged(String email) {
+        PreparedStatement pst = null;
+        ResultSet rs;
+        String sql = "select *from Assistant where email= ? ";
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setString(1, email);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                System.out.println(rs.getString("carteIdentite") + "" + rs.getString("email"));
+                Date dateNaissance = rs.getDate("dateNaissance");
+                return new Assistant(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomAssistant"), rs.getString("prenomAssistant"), dateNaissance.toLocalDate(),  rs.getString("telephone"));
             }
         } catch (SQLException exp) {
             System.out.println(exp.getMessage());
@@ -76,7 +101,7 @@ public class AssistantDaoImpl extends AbstractDAOA implements assistantIdao {
             while (rs.next()) {
                  System.out.println(rs.getString("carteIdentite") + "" + rs.getString("email"));
                 Date dateNaissance = rs.getDate("dateNaissance");
-                list.add(new Assistant(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomAssistant"), rs.getString("prenomAssistant"), dateNaissance,  rs.getString("telephone")));
+                list.add(new Assistant(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomAssistant"), rs.getString("prenomAssistant"), dateNaissance.toLocalDate(),  rs.getString("telephone")));
 
             }
         } catch (SQLException exp) {
@@ -98,7 +123,7 @@ public class AssistantDaoImpl extends AbstractDAOA implements assistantIdao {
             while (rs.next()) {
                 System.out.println(rs.getString("carteIdentite") + "" + rs.getString("email"));
                 Date dateNaissance = rs.getDate("dateNaissance");
-                list.add(new Assistant(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomAssistant"), rs.getString("prenomAssistant"), dateNaissance,  rs.getString("telephone")));
+                list.add(new Assistant(rs.getString("carteIdentite"), rs.getString("email"), rs.getString("password"), rs.getString("nomAssistant"), rs.getString("prenomAssistant"), dateNaissance.toLocalDate(),  rs.getString("telephone")));
             }
         } catch (SQLException exp) {
             System.out.println(exp.getMessage());
@@ -117,4 +142,50 @@ public class AssistantDaoImpl extends AbstractDAOA implements assistantIdao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	public static boolean validate(String email, String password) {
+		PreparedStatement pst = null;
+		String sql = "Select email, password from Assistant where email = ? and password = ?";
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String url = "jdbc:mysql://localhost/digicab";
+			String user = "root";
+			String pwd = "root";
+			Connection con = DriverManager.getConnection(url, user, pwd);
+			
+			try {
+				pst = con.prepareStatement(sql);
+				pst.setString(1, email);
+				pst.setString(2, password);
+
+				ResultSet rs = pst.executeQuery();
+
+				if (rs.next()) {
+					//result found, means valid inputs
+					return true;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			} finally {
+				con.close();
+			}
+			
+			return false;
+			
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		
+		return false;
+	}
+	
+	
 }

@@ -1,4 +1,4 @@
-package com.dao;
+package com.medecin;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;

@@ -11,7 +11,10 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 
+import com.cabinetMedical.CabinetMedical;
 import com.dao.AbstractDAOA;
+import com.listes.Domaine;
+import com.listes.Ville;
 
 @ManagedBean
 public class AssistantDaoImpl extends AbstractDAOA implements assistantIdao {
@@ -182,10 +185,32 @@ public class AssistantDaoImpl extends AbstractDAOA implements assistantIdao {
 			e.printStackTrace();
 		}
 
-		
-		
 		return false;
 	}
+	
+	public CabinetMedical getAsslogged(String email) {
+    	
+    	
+        PreparedStatement pst = null;
+        ResultSet rs;
+        String sql = "SELECT * FROM Assistant as a1, CabinetMedical as cm1 WHERE cm1.CarteIdentiteAssistant = a1.carteIdentite AND a1.email= ?";
+        
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setString(1, email);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                System.out.println(rs.getLong("codeSiren") + "" + rs.getString("nomCabinet"));
+                Domaine domaine = Domaine.valueOf(rs.getString("cm1.domaine"));
+                Ville ville = Ville.valueOf(rs.getString("cm1.nomVille"));
+                return new CabinetMedical(rs.getLong("cm1.codeSiren"), rs.getString("cm1.nomCabinet"), ville, rs.getString("cm1.adresse"), 
+                							rs.getString("cm1.telephone"), domaine);
+            }
+        } catch (SQLException exp) {
+            System.out.println(exp.getMessage());
+        }
+        return null;
+    }
 	
 	
 }

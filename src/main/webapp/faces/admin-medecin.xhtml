@@ -2,17 +2,108 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
 	<h:head>
-	<title>Facelet Title</title>
+		<title>Espace médecin</title>
+		<link rel="stylesheet" href="../css/admin-patient.css" />
 	</h:head>
 	
 	<h:body>
-		<h:form>
-			<p>Welcome #{médecin.email}</p>
-			<h:commandLink action="#{médecin.logout}" value="Logout"></h:commandLink>
-		</h:form>
+		<div class="header">
+      		<a href="accueil.xhtml"><img src="../img/logo_site.png" width="150px" /></a>
+      		<div class="spacer"></div>
+      		<h:form>
+      			<h:outputText styleClass="connexion" value="#{médecin.nomMedecin}" />
+      		</h:form>
+      		<h:form>
+      			<p:growl id="messages" showDetail="true"/>
+      			<p:commandButton id="dynaButton" value="Menu" type="button" icon="pi pi-bars"/>
+        		<p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom">
+               		<p:menuitem value="Accueil"  outcome="/faces/accueil-patient.xhtml" update="messages" 
+                            icon="pi pi-home"/>
+                    <p:menuitem value="Mes infos"  outcome="/faces/admin-assistant.xhtml" icon="pi pi-fw pi-user"/>
+                	<p:menuitem value="Se déconnecter" action="#{assistant.logout()}" icon="pi pi-fw pi-sign-out"/>     
+        		</p:menu>
+			</h:form>
+      	</div>
+		
+		<div class="main">
+			<span class="title">Espace médecin</span>
+				
+			<div class="info-cab">
+				<div class="nomCab">
+					<h:outputLabel value="NomCabinet:		"/>
+					<h:outputText value="#{médecin.nomCabinetMed}" />
+				</div>
+				
+				<div class="ville">
+					<h:outputLabel value="Ville:		"/>
+					<h:outputText value="#{médecin.nomVilleMed}" />
+				</div>
+				
+				<div class="adresse">
+					<h:outputLabel value="Adresse:		"/>
+					<h:outputText value="#{médecin.adresseMed}" />
+				</div>
+				
+				<div class="domaine">
+					<h:outputLabel value="Domaine:		"/>
+					<h:outputText value="#{médecin.domaineMed}" />
+				</div>
+				
+				
+				<div class="tel">
+					<h:outputLabel value="Telephone:		"/>
+					<h:outputText value="#{médecin.telephoneMed}" />
+				</div>
+			</div>
+		
+			<div class="info-med">
+				<div class="nom">
+					<h:outputLabel value="Nom:		"/>
+					<h:outputText value="#{médecin.nomMedecin}" />
+				</div>
+				
+				<div class="prenom">
+					<h:outputLabel value="Prénom:		"/>
+					<h:outputText value="#{médecin.prenomMedecin}" />
+				</div>
+				
+				<div class="specialite">
+					<h:outputLabel value="Spécialité:		"/>
+					<h:outputText value="#{médecin.specialite}" />
+				</div>
+				
+				<div class="cin">
+					<h:outputLabel value="CIN:		"/>
+					<h:outputText value="#{médecin.carteIdentite}" />
+				</div>
+				
+				<div class="email">
+					<h:outputLabel value="E-mail:		"/>
+					<h:outputText value="#{médecin.email}" />
+				</div>
+				
+				<div class="tel">
+					<h:outputLabel value="Telephone:		"/>
+					<h:outputText value="#{médecin.telephone}" />
+				</div>
+			
+			</div>
+		
+		</div>
+		
+		<div class="footer">
+      		<!-- <div class="v73_106"></div>  class="v73_107" class="v73_108" class="v73_109" class="v73_110" class="v73_111" -->
+      		<a  href="google.com">A PROPOS DE DigiCAB</a>
+        	<a  href="google.com">NOUS CONTACTER </a>
+        	<a  href="google.com">QUESTIONS FREQUENTES</a>
+        	<a  href="google.com">RECRUTEMENT</a>
+        	<a  href="google.com">ACCEUIL</a>
+      	</div>
+		
 	</h:body>
 	
 </html>

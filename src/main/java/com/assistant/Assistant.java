@@ -3,13 +3,13 @@ package com.assistant;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import com.cabinetMedical.CabinetMedical;
-import com.cabinetMedical.CabinetMedicalDaoImpl;
 import com.listes.Domaine;
 import com.listes.Ville;
 import com.patient.SessionUtils;
@@ -17,6 +17,7 @@ import com.patient.SessionUtils;
 
 @ManagedBean
 @SessionScoped
+@ApplicationScoped
 public class Assistant implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -174,10 +175,10 @@ public class Assistant implements Serializable {
 	}
 	
 	public CabinetMedical setCabAss() {
-		CabinetMedicalDaoImpl cabAsslog = new CabinetMedicalDaoImpl();
+		AssistantDaoImpl cabAsslog = new AssistantDaoImpl();
 		CabinetMedical cabAss = new CabinetMedical();
-		cabAss = cabAsslog.getAsslogged(carteIdentite);
-		
+		cabAss = cabAsslog.getAsslogged(email);
+		System.out.println(cabAss.getNomCabinet());
 		return cabAss;
 	}
 	

@@ -16,8 +16,9 @@ import com.medecin.Médecin;
 
 @ManagedBean
 public class CabinetMedicalDaoImpl extends AbstractDAOA implements cabinetMedicalIdao {
+	
 
-    @Override
+	@Override
     public void add(CabinetMedical obj) {
         PreparedStatement pst = null;
         String sql = "insert into CabinetMedical (codeSiren, nomCabinet, nomVille, adresse, carteIdentiteMedecin, carteIdentiteAssistant, telephone, domaine) values (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -84,61 +85,7 @@ public class CabinetMedicalDaoImpl extends AbstractDAOA implements cabinetMedica
         return null;
     }
     
-    public CabinetMedical getMedlogged(String medCarteIdentite) {
-    	
-    	Médecin med = new Médecin();
-    	medCarteIdentite = med.getCarteIdentite();
-    	
-        PreparedStatement pst = null;
-        ResultSet rs;
-        String sql = "SELECT *\r\n"
-        		+ "FROM CabinetMedical as cm1\r\n"
-        		+ "WHERE cm1.CarteIdentiteMedecin = ? ";
-        
-        try {
-            pst = connection.prepareStatement(sql);
-            pst.setString(1, medCarteIdentite);
-            rs = pst.executeQuery();
-            if (rs.next()) {
-                System.out.println(rs.getLong("codeSiren") + "" + rs.getString("nomCabinet"));
-                Domaine domaine = Domaine.valueOf(rs.getString("cm1.domaine"));
-                Ville ville = Ville.valueOf(rs.getString("cm1.nomVille"));
-                return new CabinetMedical(rs.getLong("cm1.codeSiren"), rs.getString("cm1.nomCabinet"), ville, rs.getString("cm1.adresse"), 
-                							rs.getString("cm1.telephone"), domaine);
-            }
-        } catch (SQLException exp) {
-            System.out.println(exp.getMessage());
-        }
-        return null;
-    }
     
-    public CabinetMedical getAsslogged(String assCarteIdentite) {
-    	
-    	Assistant assis = new Assistant();
-    	assCarteIdentite = assis.getCarteIdentite();
-    	
-        PreparedStatement pst = null;
-        ResultSet rs;
-        String sql = "SELECT *\r\n"
-        		+ "FROM CabinetMedical as cm1\r\n"
-        		+ "WHERE cm1.CarteIdentiteAssistant = ? ";
-        
-        try {
-            pst = connection.prepareStatement(sql);
-            pst.setString(1, assCarteIdentite);
-            rs = pst.executeQuery();
-            if (rs.next()) {
-                System.out.println(rs.getLong("codeSiren") + "" + rs.getString("nomCabinet"));
-                Domaine domaine = Domaine.valueOf(rs.getString("cm1.domaine"));
-                Ville ville = Ville.valueOf(rs.getString("cm1.nomVille"));
-                return new CabinetMedical(rs.getLong("cm1.codeSiren"), rs.getString("cm1.nomCabinet"), ville, rs.getString("cm1.adresse"), 
-                							rs.getString("cm1.telephone"), domaine);
-            }
-        } catch (SQLException exp) {
-            System.out.println(exp.getMessage());
-        }
-        return null;
-    }
 
     @Override
     public List<CabinetMedical> getAll() {

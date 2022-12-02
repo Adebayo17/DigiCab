@@ -5,7 +5,14 @@
  <PROCESS-ITEM NAME="rules:#admin-medecin.xhtml"
   PATH="/admin-medecin.xhtml" SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#admin-patient.xhtml"
-  PATH="/admin-patient.xhtml" SHAPE="272,33,0,0" model-entity="JSFProcessGroup"/>
+  PATH="/admin-patient.xhtml" SHAPE="272,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#admin-patient.xhtml:0" NAME="item"
+   PATH="/admin-patient.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="login-patient::#login-patient.xhtml"
+    NAME="output" PATH="/login-patient.xhtml"
+    TARGET="rules:#login-patient.xhtml" TITLE="login-patient" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#login-patient.xhtml"
   PATH="/login-patient.xhtml" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#login-patient.xhtml:0" NAME="item"

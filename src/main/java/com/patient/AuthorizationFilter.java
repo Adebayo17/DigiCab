@@ -46,7 +46,7 @@ public class AuthorizationFilter implements Filter {
 			HttpSession ses1 = reqt1.getSession(false);
 
 			String reqURI1 = reqt1.getRequestURI();
-			if (reqURI1.indexOf("/inscription/inscription-patient.xhtml") >= 0
+			if (reqURI1.indexOf("/admin-patient.xhtml") >= 0
 					|| (ses1 != null && ses1.getAttribute("email") != null)
 					|| reqURI1.indexOf("/public/") >= 0
 					|| reqURI1.contains("javax.faces.resource"))

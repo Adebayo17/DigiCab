@@ -9,7 +9,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import com.cabinetMedical.CabinetMedical;
-import com.cabinetMedical.CabinetMedicalDaoImpl;
 import com.listes.Domaine;
 import com.listes.Ville;
 import com.patient.SessionUtils;
@@ -187,9 +186,9 @@ public class Médecin implements Serializable {
 	}
 	
 	public CabinetMedical setCabMed() {
-		CabinetMedicalDaoImpl cabMedlog = new CabinetMedicalDaoImpl();
+		MedecinDaoImpl cabMedlog = new MedecinDaoImpl();
 		CabinetMedical cabMed = new CabinetMedical();
-		cabMed = cabMedlog.getMedlogged(carteIdentite);
+		cabMed = cabMedlog.getMedlogged(email);
 		
 		return cabMed;
 	}

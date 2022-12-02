@@ -44,10 +44,10 @@
 			
 			<div class="log-assistant">
 				<span class="title-1">Espace assistant</span>
-				<h:form>
+				<h:form >
 					<span class="text-1">Email</span>
 					<br/>
-					<h:inputText id="email" required="true" value="#{assistant.email}" />
+					<h:inputText binding="#{cabinetMedicalDaoImpl.emailAss}" name="mailAss" id="email" required="true" value="#{assistant.email}" />
 					<h:message for="email"></h:message>
 					<br></br>
 					<span class="text-1">Password</span>
@@ -56,6 +56,7 @@
 					<h:message for="password"></h:message>
 					<br></br>
 					<h:commandButton class="conn-1" action="#{assistant.validateAssistantPassword()}" value="Se connecter" />
+				
 				</h:form>
 			</div>
 			

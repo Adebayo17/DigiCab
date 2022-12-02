@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
 	<h:head>
       	<title>Se connecter en tant que patient</title>
@@ -14,20 +15,29 @@
       		<img src="../img/logo_site.png" width="150px" />
       		<div class="spacer"></div>
       		<h:form>
-      			<h:commandButton action="login-patient" value="Se connecter" class="connexion"/>
+      			<h:commandButton styleClass="connexion" value="Se connecter" type="button" onclick="PF('dlg3').show()"/>
       		</h:form>
       	</div>
+      	
+      	<h:form>
+      	<p:dialog header="Se connecter en tant que :" widgetVar="dlg3" minHeight="40" width="350" showEffect="fade">
+    		<f:facet name="footer">	
+        			<h:commandButton  action="login-patient"  value="Patient" styleClass="ui-button-flat mr-2" style="width: 10rem" />
+        			<h:commandButton  action="login-cabinet"  value="Cabinet Medical" style="width: 10rem" />
+    		</f:facet>
+		</p:dialog>
+		</h:form>
       	
 		<div class="main">
 			<div class="log">
 				<span class="title">Espace patient</span>
 				<h:form>
-					<span class="text">Email</span>
+					<span class="text">Email *</span>
 					<br/>
 					<h:inputText id="email" required="true" value="#{patient.email}" />
 					<h:message for="email"></h:message>
 					<br></br>
-					<span class="text">Password</span>
+					<span class="text">Password *</span>
 					<br/>
 					<h:inputSecret id="password" required="true" value="#{patient.password}" />
 					<h:message for="password"></h:message>
@@ -35,6 +45,7 @@
 					<h:commandButton class="conn" action="#{patient.validatePatientPassword()}" value="Se connecter" />
 				</h:form>
 				<a href="inscription-patient.xhtml">Inscrivez-vous</a>
+				
 				
 			</div>
 		</div>

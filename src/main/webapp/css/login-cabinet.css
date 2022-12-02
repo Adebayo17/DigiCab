@@ -61,7 +61,7 @@ body .main .log-medecin {
 	width: 40%;
 	margin-left: 5%;
 	margin-right: 5%;
-	background-color: aqua;
+	background-color: rgba(80,128,178,1);
 	border-radius: 36px;
 	text-align: center;
 }
@@ -123,7 +123,7 @@ body .main .log-assistant {
 	width: 40%;
 	margin-left: 5%;
 	margin-right: 5%;
-	background-color: aqua;
+	background-color: rgba(80,128,178,1);
 	border-radius: 36px;
 	text-align: center;
 }
